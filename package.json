@@ -1,16 +1,19 @@
 {
-  "name": "smoothy1",
+  "name": "Smoothy",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ denglun/smoothy1",
-    "create-local": "graph create --node http://localhost:8020/ denglun/smoothy1",
-    "remove-local": "graph remove --node http://localhost:8020/ denglun/smoothy1",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 denglun/smoothy1"
+    "deploy": "graph deploy --access-token 0832d868ad36408f99de4fa7e6a58139  --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ smoothyfinance/Smoothy",
+    "create-local": "graph create --node http://localhost:8020/ smoothyfinance/Smoothy",
+    "remove-local": "graph remove --node http://localhost:8020/ smoothyfinance/Smoothy",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 smoothyfinance/Smoothy",
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:bsc": "mustache config/bsc.json subgraph.template.yaml > subgraph.yaml"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.20.0",
-    "@graphprotocol/graph-ts": "0.20.0"
+    "@graphprotocol/graph-ts": "0.20.0",
+    "mustache": "^3.1.0"
   }
 }

@@ -2,7 +2,6 @@ import { log } from '@graphprotocol/graph-ts'
 import { Contract, Transfer } from "../generated/Contract/Contract"
 import { SyUSD } from "../generated/schema"
 
-
 export function handleTransfer(event: Transfer): void {
   let id = event.block.hash.toHex()
   let entity = SyUSD.load(id)
