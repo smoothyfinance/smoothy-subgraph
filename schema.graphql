@@ -1,0 +1,6 @@
+type SyUSD @entity {
+  id: ID!
+  block: BigInt!
+  totalSupply: BigInt!
+  totalBalance: BigInt!
+}
