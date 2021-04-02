@@ -8,17 +8,22 @@ dataSources:
     source:
       address: "0xe5859f4efc09027a9b718781dcb2c6910cac6e91"
       abi: Contract
-      startBlock: 11962400
+      startBlock: 11951349
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - SyUSD
+        - Volume
       abis:
         - name: Contract
           file: Contract/abis/Contract.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
+        - event: SwapAll(indexed address,uint256[],uint256,uint256)
+          handler: handleSwapAll
+        - event: Swap(indexed address,uint256,uint256,uint256,uint256)
+          handler: handleSwap
       file: Contract/Contract.wasm
