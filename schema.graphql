@@ -4,3 +4,15 @@ type SyUSD @entity {
   totalSupply: BigInt!
   totalBalance: BigInt!
 }
+
+type Volume @entity {
+  id: ID!
+  block: BigInt!
+  amount: BigDecimal!
+  totalAmount: BigDecimal!
+}
+
+type LastEvent @entity {
+  id: ID!
+  lastId: ID!
+}

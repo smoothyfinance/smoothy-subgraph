@@ -15,10 +15,16 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - SyUSD
+        - Volume
+        - LastEvent
       abis:
         - name: Contract
           file: ./abis/Contract.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
+        - event: SwapAll(indexed address,uint256[],uint256,uint256)
+          handler: handleSwapAll
+        - event: Swap(indexed address,uint256,uint256,uint256,uint256)
+          handler: handleSwap
       file: ./src/mapping.ts
