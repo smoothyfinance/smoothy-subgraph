@@ -46,7 +46,7 @@ export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: Big
 }
 
 export function handleSwapAll(event: SwapAll): void {
-  let id = event.block.hash.toHex()
+  let id = event.transaction.hash.toHexString();
   let entity = Volume.load(id)
   if (entity == null) {
     entity = new Volume(id)
@@ -78,7 +78,7 @@ export function handleSwapAll(event: SwapAll): void {
 }
 
 export function handleSwap(event: Swap): void {
-  let id = event.block.hash.toHex()
+  let id = event.transaction.hash.toHexString();
   let entity = Volume.load(id)
   if (entity == null) {
     entity = new Volume(id)
