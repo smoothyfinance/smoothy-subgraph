@@ -69,3 +69,101 @@ export class SyUSD extends Entity {
     this.set("totalBalance", Value.fromBigInt(value));
   }
 }
+
+export class Volume extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Volume entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Volume entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Volume", id.toString(), this);
+  }
+
+  static load(id: string): Volume | null {
+    return store.get("Volume", id) as Volume | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    let value = this.get("block");
+    return value.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get amount(): BigDecimal {
+    let value = this.get("amount");
+    return value.toBigDecimal();
+  }
+
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
+  }
+
+  get totalAmount(): BigDecimal {
+    let value = this.get("totalAmount");
+    return value.toBigDecimal();
+  }
+
+  set totalAmount(value: BigDecimal) {
+    this.set("totalAmount", Value.fromBigDecimal(value));
+  }
+}
+
+export class LastEvent extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Volume entity without an ID");
+    assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Volume entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("LastEvent", id.toString(), this);
+  }
+
+  static load(id: string): LastEvent | null {
+    return store.get("LastEvent", id) as LastEvent | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get lastId(): string {
+    let value = this.get("lastId");
+    return value.toString();
+  }
+
+  set lastId(value: string) {
+    this.set("lastId", Value.fromString(value));
+  }
+}
