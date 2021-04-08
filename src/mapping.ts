@@ -46,35 +46,38 @@ export function convertTokenToDecimal(tokenAmount: BigInt, exchangeDecimals: Big
 }
 
 export function handleSwapAll(event: SwapAll): void {
-  let id = event.transaction.hash.toHexString();
-  let entity = Volume.load(id)
-  if (entity == null) {
-    entity = new Volume(id)
-  }
-  entity.id = id
-  entity.block = event.block.number
-
-  let amount = BigDecimal.fromString('0');
-  let amountsArray = event.params.amounts;
-  for (let i = 0; i < amountsArray.length; i++) {
-    amount = amount.plus(convertTokenToDecimal(amountsArray[i], BigInt.fromI32(18)));
-  }
-  entity.amount = amount;
-
-  // Previous Event
-  let lastEvent = LastEvent.load(LAST_EVENT_ID);
-  if (lastEvent == null) {
-    lastEvent = new LastEvent(LAST_EVENT_ID);
-  } else {
-    const lastEntity = Volume.load(lastEvent.lastId)
-    if (lastEntity != null) {
-      entity.totalAmount = entity.amount.plus(lastEntity.totalAmount);
+  if (event.params.inOutFlag.gt(ZERO_BI) && event.params.inOutFlag.lt(BigInt.fromI32(1024))) {
+    let id = event.transaction.hash.toHexString();
+    let entity = Volume.load(id)
+    if (entity == null) {
+      entity = new Volume(id)
     }
-  }
-  lastEvent.lastId = id;
-  lastEvent.save();
+    entity.id = id
+    entity.block = event.block.number
 
-  entity.save();
+    let amount = BigDecimal.fromString('0');
+    let amountsArray = event.params.amounts;
+    for (let i = 0; i < amountsArray.length; i++) {
+      amount = amount.plus(convertTokenToDecimal(amountsArray[i], BigInt.fromI32(18)));
+    }
+    entity.amount = amount.div(BigDecimal.fromString('2'));
+    entity.totalAmount = entity.amount;
+
+    // Previous Event
+    let lastEvent = LastEvent.load(LAST_EVENT_ID);
+    if (lastEvent == null) {
+      lastEvent = new LastEvent(LAST_EVENT_ID);
+    } else {
+      const lastEntity = Volume.load(lastEvent.lastId)
+      if (lastEntity != null) {
+        entity.totalAmount = entity.amount.plus(lastEntity.totalAmount);
+      }
+    }
+    lastEvent.lastId = id;
+    lastEvent.save();
+
+    entity.save();
+  }
 }
 
 export function handleSwap(event: Swap): void {
@@ -85,7 +88,7 @@ export function handleSwap(event: Swap): void {
   }
   entity.id = id;
   entity.block = event.block.number;
-  entity.amount = convertTokenToDecimal(event.params.outAmount, BigInt.fromI32(18));
+  entity.amount = convertTokenToDecimal(event.params.inAmount, BigInt.fromI32(18));
   entity.totalAmount = entity.amount;
 
   // Previous Event
