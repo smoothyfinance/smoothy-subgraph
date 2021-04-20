@@ -17,6 +17,7 @@ dataSources:
         - SyUSD
         - Volume
         - LastEvent
+        - TVL
       abis:
         - name: Contract
           file: ./abis/Contract.json

@@ -1,10 +1,12 @@
-import { BigInt, BigDecimal, log } from '@graphprotocol/graph-ts'
+import { BigInt, BigDecimal, Address, log } from '@graphprotocol/graph-ts'
 import {Contract, Swap, SwapAll, Transfer} from "../generated/Contract/Contract"
-import { SyUSD, Volume, LastEvent } from "../generated/schema"
+import {SyUSD, Volume, LastEvent, TVL} from "../generated/schema"
 
 const ZERO_BI = BigInt.fromI32(0)
 const ONE_BI = BigInt.fromI32(1)
 const LAST_EVENT_ID = 'last_event_id';
+const LAST_TVL_ID = 'last_tvl_id';
+const SYUSD_ADDRESS = Address.fromString('0xe5859f4efc09027a9b718781dcb2c6910cac6e91');
 
 export function handleTransfer(event: Transfer): void {
   let id = event.block.hash.toHex()
@@ -28,6 +30,43 @@ export function handleTransfer(event: Transfer): void {
     entity.totalBalance = tb.value
   }
   entity.save()
+
+
+  // tvl
+  let tvl = TVL.load(id)
+  if (tvl != null) {
+    return;
+  }
+  // skip 10m = 200 block
+  let lastEvent = LastEvent.load(LAST_TVL_ID);
+  if (lastEvent != null) {
+    if (event.block.number.toI32() - lastEvent.block.toI32() < 200) {
+      return;
+    }
+  } else {
+    lastEvent = new LastEvent(LAST_TVL_ID);
+  }
+  lastEvent.block = event.block.number;
+  lastEvent.lastId = '';
+  lastEvent.save();
+
+  tvl = new TVL(id);
+  tvl.block = event.block.number;
+  // ****get tvl****
+  const syUSDContract = Contract.bind(SYUSD_ADDRESS);
+  let tvlAmount = BigDecimal.fromString('0');
+  for (let i = 0; i < 6; i++) {
+    let result = syUSDContract.try_getTokenStats(BigInt.fromI32(i));
+    if (result.reverted) {
+      log.info("getTokenStats reverted", [])
+    } else {
+      let balance: BigInt = result.value.value2;
+      tvlAmount = tvlAmount.plus(convertTokenToDecimal(balance, BigInt.fromI32(18)));
+    }
+  }
+  tvl.amount = tvlAmount;
+  // ****get tvl****
+  tvl.save();
 }
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
@@ -73,6 +112,7 @@ export function handleSwapAll(event: SwapAll): void {
         entity.totalAmount = entity.amount.plus(lastEntity.totalAmount);
       }
     }
+    lastEvent.block = ZERO_BI;
     lastEvent.lastId = id;
     lastEvent.save();
 
@@ -101,6 +141,7 @@ export function handleSwap(event: Swap): void {
       entity.totalAmount = entity.amount.plus(lastEntity.totalAmount);
     }
   }
+  lastEvent.block = ZERO_BI;
   lastEvent.lastId = id;
   lastEvent.save();
 

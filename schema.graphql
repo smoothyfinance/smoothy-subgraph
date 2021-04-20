@@ -12,7 +12,14 @@ type Volume @entity {
   totalAmount: BigDecimal!
 }
 
+type TVL @entity {
+  id: ID!
+  block: BigInt!
+  amount: BigDecimal!
+}
+
 type LastEvent @entity {
   id: ID!
   lastId: ID!
+  block: BigInt!
 }

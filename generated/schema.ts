@@ -136,10 +136,10 @@ export class LastEvent extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Volume entity without an ID");
+    assert(id !== null, "Cannot save LastEvent entity without an ID");
     assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Volume entity with non-string ID. " +
+        "Cannot save LastEvent entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
     store.set("LastEvent", id.toString(), this);
@@ -165,5 +165,63 @@ export class LastEvent extends Entity {
 
   set lastId(value: string) {
     this.set("lastId", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    let value = this.get("block");
+    return value.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+}
+
+export class TVL extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save TVL entity without an ID");
+    assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save TVL entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("TVL", id.toString(), this);
+  }
+
+  static load(id: string): TVL | null {
+    return store.get("TVL", id) as TVL | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get block(): BigInt {
+    let value = this.get("block");
+    return value.toBigInt();
+  }
+
+  set block(value: BigInt) {
+    this.set("block", Value.fromBigInt(value));
+  }
+
+  get amount(): BigDecimal {
+    let value = this.get("amount");
+    return value.toBigDecimal();
+  }
+
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 }
