@@ -10,6 +10,12 @@ type Volume @entity {
   block: BigInt!
   amount: BigDecimal!
   totalAmount: BigDecimal!
+  busdTotalAmount: BigDecimal!
+  usdtTotalAmount: BigDecimal!
+  usdcTotalAmount: BigDecimal!
+  daiTotalAmount: BigDecimal!
+  paxTotalAmount: BigDecimal!
+  ustTotalAmount: BigDecimal!
 }
 
 type TVL @entity {

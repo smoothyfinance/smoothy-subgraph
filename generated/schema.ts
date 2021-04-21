@@ -126,6 +126,60 @@ export class Volume extends Entity {
   set totalAmount(value: BigDecimal) {
     this.set("totalAmount", Value.fromBigDecimal(value));
   }
+
+  get busdTotalAmount(): BigDecimal {
+    let value = this.get("busdTotalAmount");
+    return value.toBigDecimal();
+  }
+
+  set busdTotalAmount(value: BigDecimal) {
+    this.set("busdTotalAmount", Value.fromBigDecimal(value));
+  }
+
+  get usdtTotalAmount(): BigDecimal {
+    let value = this.get("usdtTotalAmount");
+    return value.toBigDecimal();
+  }
+
+  set usdtTotalAmount(value: BigDecimal) {
+    this.set("usdtTotalAmount", Value.fromBigDecimal(value));
+  }
+
+  get usdcTotalAmount(): BigDecimal {
+    let value = this.get("usdcTotalAmount");
+    return value.toBigDecimal();
+  }
+
+  set usdcTotalAmount(value: BigDecimal) {
+    this.set("usdcTotalAmount", Value.fromBigDecimal(value));
+  }
+
+  get daiTotalAmount(): BigDecimal {
+    let value = this.get("daiTotalAmount");
+    return value.toBigDecimal();
+  }
+
+  set daiTotalAmount(value: BigDecimal) {
+    this.set("daiTotalAmount", Value.fromBigDecimal(value));
+  }
+
+  get paxTotalAmount(): BigDecimal {
+    let value = this.get("paxTotalAmount");
+    return value.toBigDecimal();
+  }
+
+  set paxTotalAmount(value: BigDecimal) {
+    this.set("paxTotalAmount", Value.fromBigDecimal(value));
+  }
+
+  get ustTotalAmount(): BigDecimal {
+    let value = this.get("ustTotalAmount");
+    return value.toBigDecimal();
+  }
+
+  set ustTotalAmount(value: BigDecimal) {
+    this.set("ustTotalAmount", Value.fromBigDecimal(value));
+  }
 }
 
 export class LastEvent extends Entity {
