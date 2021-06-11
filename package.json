@@ -4,10 +4,8 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --access-token 0832d868ad36408f99de4fa7e6a58139  --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ smoothyfinance/Smoothy",
-    "create-local": "graph create --node http://localhost:8020/ smoothyfinance/Smoothy",
-    "remove-local": "graph remove --node http://localhost:8020/ smoothyfinance/Smoothy",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 smoothyfinance/Smoothy",
+    "deploy": "graph deploy --debug --access-token 0832d868ad36408f99de4fa7e6a58139  --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ smoothyfinance/apyplus",
+    "deploy:bsc": "graph deploy --debug --access-token 0832d868ad36408f99de4fa7e6a58139  --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ smoothyfinance/apyplus-bsc",
     "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
     "prepare:bsc": "mustache config/bsc.json subgraph.template.yaml > subgraph.yaml"
   },

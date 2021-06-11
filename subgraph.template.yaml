@@ -18,6 +18,8 @@ dataSources:
       abis:
         - name: Contract
           file: ./abis/Contract.json
+        - name: YToken
+          file: ./abis/YToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
